@@ -1,0 +1,9 @@
+main: me.ClownStick.RandomDrops.Main
+name: RandDrop
+version: 1.0.7
+api-version: 1.13
+
+commands:
+  RandDrop:
+    usage: /randdrop
+    aliases: rd
