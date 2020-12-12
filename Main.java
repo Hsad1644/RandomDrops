@@ -8,13 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-//import org.bukkit.entity.Player;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -28,7 +29,7 @@ public class Main extends JavaPlugin implements Listener{
 	@Override
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(this, this);
-		
+		shuffleMap();
 	}
 	
 	@Override
@@ -40,7 +41,7 @@ public class Main extends JavaPlugin implements Listener{
 		if(label.equalsIgnoreCase("rd")) {
 			
 			sender.sendMessage(ChatColor.BLUE + "Random Drops" + ChatColor.GREEN + " away!");
-			shuffleMap();
+			
 			
 //			Player player = (Player) sender;
 //			
@@ -69,24 +70,32 @@ public class Main extends JavaPlugin implements Listener{
 	
 	@EventHandler
 	public void onBreaking(BlockBreakEvent event) {
-		event.setCancelled(true);
 		
-//		Player player = event.getPlayer();
-		Block b = event.getBlock();
-		World wd = b.getWorld();
 		
-		Collection<ItemStack> ogDrops = b.getDrops();
 		
-		Location loc = b.getLocation();
+		Player player = event.getPlayer();
 		
-		 for (ItemStack item : ogDrops) {
-		   	  item.setType(shuffledMaterialsMap.get(item.getType()));
-		   	  wd.dropItemNaturally(loc, item);
-		   	}
+		if (player.getGameMode() == GameMode.SURVIVAL) {
 		
-//		Iterator<ItemStack> k = ogDrops.iterator();
-		
-//		if (k.hasNext())
-//			wd.dropItemNaturally(loc, k.next());
+//			event.setCancelled(true);
+			
+	//		Player player = event.getPlayer();
+			Block b = event.getBlock();
+			World wd = b.getWorld();
+			
+			Collection<ItemStack> ogDrops = b.getDrops();
+			
+			Location loc = b.getLocation();
+			
+			 for (ItemStack item : ogDrops) {
+			   	  item.setType(shuffledMaterialsMap.get(item.getType()));
+			   	  wd.dropItemNaturally(loc, item);
+			   	}
+			
+	//		Iterator<ItemStack> k = ogDrops.iterator();
+			
+	//		if (k.hasNext())
+	//			wd.dropItemNaturally(loc, k.next());
+		}
 	}
 }
